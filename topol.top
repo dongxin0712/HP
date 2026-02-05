@@ -1,0 +1,54 @@
+;
+;	File 'hp-0.top' was generated
+;	By user: gmsadmin (1001)
+;	On host: gpu69
+;	At date: Wed Jun 29 23:45:34 2022
+;
+;	This is a standalone topology file
+;
+;	Created by:
+;	                    :-) GROMACS - gmx pdb2gmx, 2018.3 (-:
+;	
+;	Executable:   /software/gmx2018.3/bin/gmx
+;	Data prefix:  /software/gmx2018.3
+;	Working dir:  /home/gmsadmin/dx/hp-cis-remd/hp-remd-c36i
+;	Command line:
+;	  gmx pdb2gmx -ignh -ff charmm36IDPSFF -f hp-0.pdb -o hp-0.gro -p hp-0.top -water tip3p
+;	Force field was read from current directory or a relative path - path added.
+;
+
+; Include forcefield parameters
+#include "./charmm36IDPSFF.ff/forcefield.itp"
+
+[ moleculetype ]
+; Name            nrexcl
+Protein             3
+   
+; Include Position restraint file
+#ifdef POSRES
+#include "posre.itp"
+#endif
+
+; Include water topology
+#include "./charmm36IDPSFF.ff/tip3p.itp"
+
+#ifdef POSRES_WATER
+; Position restraint for each water oxygen
+[ position_restraints ]
+;  i funct       fcx        fcy        fcz
+   1    1       1000       1000       1000
+#endif
+
+; Include topology for ions
+#include "./charmm36IDPSFF.ff/ions.itp"
+
+[ system ]
+; Name
+Protein in water
+
+[ molecules ]
+; Compound        #mols
+Protein             1
+SOL         4383
+NA               9
+CL               12
